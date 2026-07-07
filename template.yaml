@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: bookmeter-mcp remote — Lambda Function URL + Streamable HTTP MCP (読書記録)
+
+Parameters:
+  McpPath:
+    Type: String
+    NoEcho: true
+    Description: MCPエンドポイントの秘匿パス(例 /mcp/<ランダム文字列>)。コード外から渡す。
+  AllowedCidr:
+    Type: String
+    Default: 160.79.104.0/21
+    Description: 許可する送信元IPレンジ(既定 = Anthropic outbound)。検証時は 0.0.0.0/0 に緩める。
+
+Resources:
+  BookmeterMcpFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: bookmeter-mcp
+      Runtime: nodejs22.x
+      Architectures:
+        - arm64
+      Handler: lambda.handler
+      CodeUri: ./
+      MemorySize: 256
+      Timeout: 15
+      Environment:
+        Variables:
+          MCP_PATH: !Ref McpPath
+          ALLOWED_CIDR: !Ref AllowedCidr
+      FunctionUrlConfig:
+        AuthType: NONE
+        InvokeMode: BUFFERED
+
+Outputs:
+  FunctionUrl:
+    Description: Function URL。末尾に MCP_PATH を付けたものが MCP エンドポイント。
+    Value: !GetAtt BookmeterMcpFunctionUrl.FunctionUrl

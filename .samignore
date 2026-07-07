@@ -1,0 +1,7 @@
+.git
+.gitignore
+.aws-sam
+samconfig.toml
+smoke-remote.mjs
+README.md
+*.log
