@@ -1,0 +1,14 @@
+{
+  "name": "bookmeter-mcp",
+  "version": "0.1.0",
+  "description": "読書記録（Bookmeter）を提供する最小のMCPサーバー",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "zod": "4.4.3"
+  }
+}
