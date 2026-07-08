@@ -57,7 +57,7 @@ const byType = (type) => (type ? media.filter((m) => m.type === type) : media);
 // 3ツールを登録した McpServer インスタンスを生成して返す。
 // stateless 運用のためリクエストごとに新規生成できるよう関数化している。
 export function createServer() {
-  const server = new McpServer({ name: "bookmeter-mcp", version: "0.2.0" });
+  const server = new McpServer({ name: "media-log-mcp", version: "0.3.0" });
 
   // タイトル・作者のキーワード検索(「これ読んだ/観た/やった?」判定用)
   server.registerTool(
