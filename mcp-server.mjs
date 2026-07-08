@@ -24,6 +24,8 @@ const SOURCES = [
       url: b.u,
     }),
   },
+  { type: "book", file: "kindle-books.json", env: "KINDLE_BOOKS_JSON" },
+  { type: "audiobook", file: "audiobooks.json", env: "AUDIOBOOKS_JSON" },
   { type: "movie", file: "movies.json", env: "MOVIES_JSON" },
   { type: "anime", file: "anime.json", env: "ANIME_JSON" },
   { type: "drama", file: "dramas.json", env: "DRAMAS_JSON" },
@@ -31,7 +33,7 @@ const SOURCES = [
   { type: "game", file: "games.json", env: "GAMES_JSON" },
 ];
 
-export const MEDIA_TYPES = SOURCES.map((s) => s.type);
+export const MEDIA_TYPES = [...new Set(SOURCES.map((s) => s.type))];
 
 // 各ファイルはモジュール読み込み時に一度だけ読む(Lambda warm 時はキャッシュされる)。
 // 環境変数でパス上書き可。既定パスのファイルが無い種別は空扱いにする。
