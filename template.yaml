@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: bookmeter-mcp remote — Lambda Function URL + Streamable HTTP MCP (読書記録)
+Description: bookmeter-mcp remote — Lambda Function URL + Streamable HTTP MCP (メディア記録)
 
 Parameters:
   McpPath:
