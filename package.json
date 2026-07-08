@@ -1,5 +1,5 @@
 {
-  "name": "bookmeter-mcp",
+  "name": "media-log-mcp",
   "version": "0.2.0",
   "description": "メディア記録（本・映画・ゲーム）を提供する最小のMCPサーバー",
   "type": "module",

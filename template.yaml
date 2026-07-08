@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: bookmeter-mcp remote — Lambda Function URL + Streamable HTTP MCP (メディア記録)
+Description: media-log-mcp remote — Lambda Function URL + Streamable HTTP MCP (メディア記録)
 
 Parameters:
   McpPath:
@@ -13,10 +13,10 @@ Parameters:
     Description: 許可する送信元IPレンジ(既定 = Anthropic outbound)。検証時は 0.0.0.0/0 に緩める。
 
 Resources:
-  BookmeterMcpFunction:
+  MediaLogMcpFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: bookmeter-mcp
+      FunctionName: media-log-mcp
       Runtime: nodejs22.x
       Architectures:
         - arm64
@@ -35,4 +35,4 @@ Resources:
 Outputs:
   FunctionUrl:
     Description: Function URL。末尾に MCP_PATH を付けたものが MCP エンドポイント。
-    Value: !GetAtt BookmeterMcpFunctionUrl.FunctionUrl
+    Value: !GetAtt MediaLogMcpFunctionUrl.FunctionUrl

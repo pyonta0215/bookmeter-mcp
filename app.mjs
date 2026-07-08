@@ -59,6 +59,6 @@ export { app };
 if (!process.env.AWS_LAMBDA_FUNCTION_NAME) {
   const port = process.env.PORT || 3000;
   app.listen(port, () => {
-    console.error(`bookmeter-mcp (remote) listening on http://localhost:${port}${MCP_PATH}`);
+    console.error(`media-log-mcp (remote) listening on http://localhost:${port}${MCP_PATH}`);
   });
 }
