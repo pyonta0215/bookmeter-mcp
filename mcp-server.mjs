@@ -1,4 +1,4 @@
-// メディア記録(本・映画・ゲームなど)を提供する MCP サーバーのツール定義。
+// メディア記録(本・映画・アニメ・ゲームなど)を提供する MCP サーバーのツール定義。
 // stdio版(server.mjs)とリモート版(app.mjs)の双方から createServer() を共有する。
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
@@ -25,6 +25,7 @@ const SOURCES = [
     }),
   },
   { type: "movie", file: "movies.json", env: "MOVIES_JSON" },
+  { type: "anime", file: "anime.json", env: "ANIME_JSON" },
   { type: "game", file: "games.json", env: "GAMES_JSON" },
 ];
 
@@ -64,7 +65,7 @@ export function createServer() {
     {
       title: "メディア記録検索",
       description:
-        "タイトル・作者のキーワードでメディア記録(本・映画・ゲーム)を検索する（「これ読んだ/観た/やった?」判定用）。type未指定なら全種別を横断検索",
+        "タイトル・作者のキーワードでメディア記録(本・映画・アニメ・ゲーム)を検索する（「これ読んだ/観た/やった?」判定用）。type未指定なら全種別を横断検索",
       inputSchema: { keyword: z.string(), type: typeSchema, limit: z.number().default(20) },
     },
     async ({ keyword, type, limit }) => {
