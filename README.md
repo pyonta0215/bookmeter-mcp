@@ -1,6 +1,6 @@
 # bookmeter-mcp
 
-読書記録（Bookmeter）を提供する最小の MCP サーバーです。3つのツールで蔵書を検索・集計できます。
+自分が触れてきたメディアの記録（本・映画・ゲーム）を提供する最小の MCP サーバーです。3つのツールで記録を横断検索・集計できます。読書記録は Bookmeter のエクスポートをそのまま利用します。
 
 使い方は2通りあります。
 
@@ -9,9 +9,11 @@
 
 ## 提供ツール
 
-- `search_books(keyword, limit=20)` — タイトル・著者をキーワード検索（「この本読んだ?」判定用）
-- `books_by_author(author)` — 指定著者の登録本を全件返す
-- `reading_stats(topAuthors=10)` — 総冊数・著者別トップN・年別冊数を集計
+いずれも `type`（`book` / `movie` / `game`）で種別を絞り込めます。未指定なら全種別を横断します。
+
+- `search_media(keyword, type?, limit=20)` — タイトル・作者をキーワード検索（「これ読んだ/観た/やった?」判定用）
+- `media_by_creator(creator, type?)` — 指定した作者（著者・監督・開発元など）の記録を全件返す
+- `media_stats(type?, topCreators=10)` — 総件数・種別内訳・作者別トップN・年別件数を集計
 
 ## 使い方1: ローカル(stdio)
 
@@ -104,7 +106,18 @@ sam deploy \
 
 ## データについて
 
-`books.json` に読書記録が入っています。各レコードのフィールドは以下の通りです。
+メディア種別ごとに JSON ファイルを分けて管理します。記録の追加・修正はファイルを直接編集して
+git にコミットする運用です（リモート版は再デプロイで反映）。
+
+| 種別 | ファイル | パス上書き用の環境変数 |
+| --- | --- | --- |
+| 本 | `books.json` | `BOOKS_JSON` |
+| 映画 | `movies.json` | `MOVIES_JSON` |
+| ゲーム | `games.json` | `GAMES_JSON` |
+
+### books.json（Bookmeter エクスポート形式）
+
+Bookmeter からのエクスポート形式をそのまま温存しています。読み込み時に下記の共通スキーマへ正規化されます。
 
 | フィールド | 内容 |
 | --- | --- |
@@ -115,5 +128,24 @@ sam deploy \
 | `i` | Amazon画像URL |
 | `u` | Amazon商品ページURL |
 
-`books.json` のパスは環境変数 `BOOKS_JSON` で上書きできます（未指定時はこのディレクトリ内の
-`books.json` を使用します）。
+### movies.json / games.json（共通スキーマ）
+
+最初から共通スキーマで記録します。`title` 以外は省略可で、任意の追加フィールド（`platform` など）も
+そのまま検索結果に含まれます。
+
+```json
+[
+  {
+    "title": "作品タイトル",
+    "creator": "監督・開発元など",
+    "date": "YYYY-MM-DD",
+    "review": "感想",
+    "url": "関連URL"
+  }
+]
+```
+
+### 種別の追加
+
+新しい種別（アニメなど）を増やす場合は、`mcp-server.mjs` の `SOURCES` に1行足して
+対応する JSON ファイルを置くだけです。

@@ -1,7 +1,7 @@
 {
   "name": "bookmeter-mcp",
-  "version": "0.1.0",
-  "description": "読書記録（Bookmeter）を提供する最小のMCPサーバー",
+  "version": "0.2.0",
+  "description": "メディア記録（本・映画・ゲーム）を提供する最小のMCPサーバー",
   "type": "module",
   "main": "server.mjs",
   "scripts": {
