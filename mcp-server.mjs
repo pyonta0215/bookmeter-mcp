@@ -58,19 +58,21 @@ export function createServer() {
     }
   );
 
-  // 総冊数・著者別トップN・年別冊数を集計する
+  // 総冊数・感想を書いた本の数・著者別トップN・年別冊数を集計する
   server.registerTool(
     "reading_stats",
     {
       title: "読書統計",
-      description: "総冊数・著者別トップN・年別冊数を集計する",
+      description: "総冊数・感想を書いた本の数・著者別トップN・年別冊数を集計する",
       inputSchema: { topAuthors: z.number().default(10) },
     },
     async ({ topAuthors }) => {
       const authorCounts = new Map();
       const yearCounts = new Map();
+      let reviewed = 0;
 
       for (const b of books) {
+        if (b.r) reviewed++;
         const author = b.a || "不明";
         authorCounts.set(author, (authorCounts.get(author) ?? 0) + 1);
 
@@ -99,7 +101,13 @@ export function createServer() {
           {
             type: "text",
             text: JSON.stringify(
-              { totalBooks: books.length, topAuthors: topAuthorsList, byYear },
+              {
+                totalBooks: books.length,
+                withReview: reviewed,
+                withoutReview: books.length - reviewed,
+                topAuthors: topAuthorsList,
+                byYear,
+              },
               null,
               2
             ),
