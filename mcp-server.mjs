@@ -26,6 +26,8 @@ const SOURCES = [
   },
   { type: "movie", file: "movies.json", env: "MOVIES_JSON" },
   { type: "anime", file: "anime.json", env: "ANIME_JSON" },
+  { type: "drama", file: "dramas.json", env: "DRAMAS_JSON" },
+  { type: "variety", file: "varieties.json", env: "VARIETIES_JSON" },
   { type: "game", file: "games.json", env: "GAMES_JSON" },
 ];
 
